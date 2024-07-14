@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://qwo5smr1ycnl"]
+
+[ext_resource type="PackedScene" uid="uid://jqvrtnf2hcsn" path="res://Scenes/MeshExperiments/FusionPistolProjectile.glb" id="1_58mw2"]
+[ext_resource type="Script" path="res://Globals/MeshParent.cs" id="2_i8tlf"]
+
+[node name="FusionPistolProjectile" node_paths=PackedStringArray("MeshInstance") instance=ExtResource("1_58mw2")]
+script = ExtResource("2_i8tlf")
+MeshInstance = NodePath("FusionPistolProjectileMesh")

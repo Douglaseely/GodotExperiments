@@ -1,17 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://c0mj2crx4b5vt"]
+[gd_scene load_steps=3 format=3 uid="uid://c0mj2crx4b5vt"]
 
 [ext_resource type="Script" path="res://Scenes/MeshExperiments/Scripts/MeshArrayConverter.cs" id="1_4qce2"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_dtl8w"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m1xow"]
+[ext_resource type="PackedScene" uid="uid://qwo5smr1ycnl" path="res://Scenes/MeshExperiments/fusion_pistol_projectile.tscn" id="2_6t377"]
 
 [node name="Node3D" type="Node3D"]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("BoxMesh_dtl8w")
-surface_material_override/0 = SubResource("StandardMaterial3D_m1xow")
-script = ExtResource("1_4qce2")
-
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.16711)
+
+[node name="Node" type="Node" parent="." node_paths=PackedStringArray("MeshParent")]
+script = ExtResource("1_4qce2")
+MeshParent = NodePath("FusionPistolProjectile")
+
+[node name="FusionPistolProjectile" parent="Node" instance=ExtResource("2_6t377")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)

@@ -1,21 +1,17 @@
 using Godot;
 using System;
 
-public partial class MeshArrayConverter : MeshInstance3D
+public partial class MeshArrayConverter : Node
 {
+	[Export] public MeshParent MeshParent;
+	private Mesh Mesh => MeshParent.MeshInstance.Mesh;
+	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		var surfaceTool = new SurfaceTool();
-		
-		GD.Print($"Mesh Surface Count: {Mesh.GetSurfaceCount()}");
-		
-		for (var i = 0; i < Mesh.GetSurfaceCount(); i++)
-		{
-			surfaceTool.AppendFrom(Mesh, i, Transform3D.Identity);
-		}
 
-		var arrayMesh = surfaceTool.Commit();
+		var arrayMesh = GenerateArrayMesh(Mesh);
 
 		var newMesh = new MeshInstance3D()
 		{
@@ -27,9 +23,25 @@ public partial class MeshArrayConverter : MeshInstance3D
 
 		return;
 	}
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	
+	public static ArrayMesh GenerateArrayMesh(Mesh mesh, SurfaceTool surfaceTool = null, MeshDataTool meshDataTool = null)
 	{
+		if (mesh.GetType().IsAssignableTo(typeof(ArrayMesh)))
+		{
+			return mesh as ArrayMesh;
+		}
+        
+		// Needed tools for Mesh manipulation
+		surfaceTool ??= new SurfaceTool();
+		meshDataTool ??= new MeshDataTool();
+
+		for (var i = 0; i < mesh.GetSurfaceCount(); i++)
+		{
+			surfaceTool.CreateFrom(mesh, i);
+		}
+
+		var arrayMesh = surfaceTool.Commit();
+
+		return arrayMesh;
 	}
 }
